@@ -1,0 +1,101 @@
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution{
+
+	public:
+	int findK(vector<vector<int>> &a, int n, int m, int k)
+    {
+        // Your code goes here
+        
+
+        int noOfElement = n*m;
+        int count = 0;
+
+        int rowStartingIndex = 0;
+        int rowEndingIndex = n-1;
+        int colStartingIndex = 0;
+        int colEndingIndex = m-1;
+
+
+        while(count<noOfElement){
+            
+            if(count<noOfElement){
+                for(int i = colStartingIndex; i<=colEndingIndex; i++){
+                    count++;
+                    if(count == k){
+                        return a[rowStartingIndex][i];
+                    }
+                }
+                rowStartingIndex++;
+            }
+            
+            if(count<noOfElement){
+                for(int i = rowStartingIndex; i<=rowEndingIndex; i++){
+                    count++;
+                    if(count == k){
+                        return a[i][colEndingIndex];
+                    }
+                }
+                colEndingIndex--;  
+            }
+                      
+
+            if(count<noOfElement){
+                for(int i = colEndingIndex; i>=colStartingIndex; i--){
+                    count++;
+                    if(count == k){
+                        return a[rowEndingIndex][i];
+                    }
+                }
+                rowEndingIndex--;
+            }
+            
+            if(count<noOfElement){
+                for(int i = rowEndingIndex; i>=rowStartingIndex; i--){
+                    count++;
+                    if(count == k){
+                        return a[i][colStartingIndex];
+                    }
+                }
+                colStartingIndex++;
+            }
+        }
+        return -1;
+    }
+
+};
+
+//{ Driver Code Starts.
+
+int main()
+{
+    int T;
+    cin>>T;
+  
+    while(T--)
+    {
+        int n,m;
+        int k=0;
+        //cin>>k;
+        cin>>n>>m>>k;
+        vector<vector<int>> a(n, vector<int>(m, 0));
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                cin>>a[i][j];
+            }
+        }
+
+        Solution obj;
+
+        cout<< obj.findK(a, n, m, k) << "\n";
+        
+       
+    }
+}
+// } Driver Code Ends
