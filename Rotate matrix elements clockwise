@@ -1,0 +1,77 @@
+//{ Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+// User function Template for C++
+
+class Solution {
+  public:
+    vector<vector<int>> rotateMatrix(int n, int m, vector<vector<int>> mat) {
+        // code here
+        
+        int rowStartingIndex = 0;
+        int rowEndingIndex = n-1;
+        int colStartingIndex = 0;
+        int colEndingIndex = m-1;
+
+        while(rowStartingIndex<rowEndingIndex && colStartingIndex<colEndingIndex){
+
+            int prev = mat[rowStartingIndex+1][colStartingIndex];
+            int curr;
+
+            for(int i = colStartingIndex; i<=colEndingIndex; i++){
+                curr = mat[rowStartingIndex][i];
+                mat[rowStartingIndex][i] = prev;
+                prev = curr;
+            }
+            rowStartingIndex++;
+
+            for(int i = rowStartingIndex; i<=rowEndingIndex; i++){
+                curr = mat[i][colEndingIndex];
+                mat[i][colEndingIndex] = prev;
+                prev = curr;
+            }
+            colEndingIndex--;
+
+            for(int i = colEndingIndex; rowStartingIndex<=rowEndingIndex && i>=colStartingIndex; i--){
+                curr = mat[rowEndingIndex][i];
+                mat[rowEndingIndex][i] = prev;
+                prev = curr;
+            }
+            rowEndingIndex--;
+
+            for(int i = rowEndingIndex; colStartingIndex<=colEndingIndex && i>=rowStartingIndex; i--){
+                curr = mat[i][colStartingIndex];
+                mat[i][colStartingIndex] = prev;
+                prev = curr;
+            }
+            colStartingIndex++;
+
+        }
+        return mat;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int N, M, i, j;
+        cin >> N >> M;
+        vector<vector<int>> Mat(N, vector<int>(M));
+        for (i = 0; i < N; i++)
+            for (j = 0; j < M; j++) cin >> Mat[i][j];
+        Solution ob;
+        vector<vector<int>> ans = ob.rotateMatrix(N, M, Mat);
+        for (i = 0; i < N; i++) {
+            for (j = 0; j < M; j++) cout << ans[i][j] << " ";
+            cout << "\n";
+        }
+    }
+}
+// } Driver Code Ends
