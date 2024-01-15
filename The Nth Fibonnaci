@@ -1,0 +1,40 @@
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution{
+public:
+    int fib(int N){
+        //code here
+        
+        if (N <= 1) {
+            return N;
+        }
+
+        int a = 0, b = 1, temp;
+        for (int i = 2; i <= N; i++) {
+            temp = (a + b)% 10;
+            a = b;
+            b = temp;
+        }
+
+        return b;
+    }
+};
+
+//{ Driver Code Starts.
+int main() 
+{ 
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int N;
+        cin>>N;
+        Solution ob;
+        cout << ob.fib(N) << endl;
+    }
+    return 0; 
+}
+// } Driver Code Ends
