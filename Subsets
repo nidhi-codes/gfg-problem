@@ -1,0 +1,86 @@
+//{ Driver Code Starts
+//Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+//User function Template for C++
+
+class Solution
+{
+    public:
+    
+      void recursion(vector<int>& nums, vector<vector<int>>& ans, vector<int> temp, int index){
+
+        int len = nums.size();
+
+        if(index >= len){
+            ans.push_back(temp);
+            return;
+        }
+
+        //exclude nums[index]
+        recursion(nums, ans, temp, index+1);
+
+        //indclude nums[index]
+        temp.push_back(nums[index]);
+        recursion(nums, ans, temp, index+1);
+
+    }
+    
+    vector<vector<int> > subsets(vector<int>& A)
+    {
+        //code here
+        
+        vector<vector<int>> ans;
+
+        vector<int> temp;   //stores the output
+
+        int index = 0;
+
+        recursion(A, ans, temp, index);
+        
+        sort(ans.begin(), ans.end());
+
+        return ans;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main()
+{
+	int t;
+	cin >> t;
+
+	while (t--)
+	{
+		int n, x;
+		cin >> n;
+
+		vector<int> array;
+		for (int i = 0; i < n; i++)
+		{
+			cin >> x;
+			array.push_back(x);
+		}
+        
+        
+        Solution ob;
+		vector<vector<int> > res = ob.subsets(array);
+
+		// Print result
+		for (int i = 0; i < res.size(); i++) {
+			for (int j = 0; j < res[i].size(); j++)
+				cout << res[i][j] << " ";
+			cout << endl;
+		}
+
+		
+	}
+
+	return 0;
+}
+// } Driver Code Ends
