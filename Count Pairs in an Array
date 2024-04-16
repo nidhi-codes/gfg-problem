@@ -1,0 +1,117 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+
+
+class Solution{
+    public:
+    
+    int mergeAndInversion(long long temp[], int s, int e){
+
+        long long mid = s+(e-s)/2;
+
+        long long len1 = mid-s+1;
+        long long len2 = e-mid;
+
+        long long* arr1 = new long long[len1];
+        long long* arr2 = new long long[len2];
+
+        for(long long i=0; i<len1; i++){
+            arr1[i] = temp[s+i];
+        }
+
+        for(long long i=0; i<len2; i++){
+            arr2[i] = temp[mid+1+i];
+        }
+
+        long long i = 0;
+        long long j = 0;
+        long index = s;
+        int count = 0;
+
+        while(i<len1 && j<len2){
+
+            if(arr1[i] > arr2[j]){
+                temp[index] = arr2[j];
+                index++;
+                j++;
+                count += len1-i;
+            }
+            else{   
+                temp[index] = arr1[i];
+                index++;
+                i++;
+            }
+        }
+
+        while(i<len1){
+            temp[index] = arr1[i];
+            index++;
+            i++;
+        }
+
+        while(i<len2){
+            temp[index] = arr2[j];
+            index++;
+            j++;
+        }
+
+        delete []arr1;
+        delete []arr2;
+    
+        return count;
+
+    }
+
+    int mergeSort(long long temp[], int s, int e){
+    
+        int count = 0;
+
+        if(s<e){
+            long long mid = s+(e-s)/2;
+
+            count += mergeSort(temp, s, mid);
+            count += mergeSort(temp, mid+1, e);
+            count += mergeAndInversion(temp, s, e);
+        }
+    
+        return count;
+    }
+    
+    int countPairs(int arr[] , int n ) 
+    {
+        // Your code goes here 
+        
+        int count = 0;
+        
+        long long temp[n];
+        
+        for(int i=0; i<n; i++){
+            temp[i] = arr[i]*i;
+        }
+        
+        return mergeSort(temp, 0, n-1);
+        
+    }
+};
+
+//{ Driver Code Starts.
+// Driver code
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+    	int n;
+    	cin>>n;
+    	int a[n];
+    	for(int i=0;i<n;i++)
+    	cin>>a[i];
+    	Solution ob;
+    	cout<<ob.countPairs(a, n)<<endl;
+    }
+}
+// } Driver Code Ends
