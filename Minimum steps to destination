@@ -1,0 +1,47 @@
+//{ Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+// User function Template for C++
+
+class Solution {
+  public:
+    int minSteps(int d) {
+        // code here
+        int add=1;
+        int t=0,cnt=0;
+        while(t<d){
+            t+=add;
+            add++;
+            cnt++;
+        }
+        while((t-d)%2!=0){
+            cnt++;
+            t+=add;
+            add++;
+        }
+        return cnt;
+        
+        
+    }
+};
+
+//{ Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int d;
+        cin >> d;
+
+        Solution ob;
+        cout << ob.minSteps(d) << "\n";
+    }
+    return 0;
+}
+// } Driver Code Ends
