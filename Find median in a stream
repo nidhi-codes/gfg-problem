@@ -1,0 +1,107 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+
+// } Driver Code Ends
+class Solution
+{
+    private:
+        priority_queue<int> maxi;
+	    priority_queue<int, vector<int>, greater<int>> mini;
+	    double m = 0;
+	    
+    public:
+    //Function to insert heap.
+    void insertHeap(int &ele)
+    {
+        switch(balanceHeaps()){
+
+    		case 0:
+    			if(ele > m){
+    				mini.push(ele);
+    				m = mini.top();
+    			}
+    			else{
+    				maxi.push(ele);
+    				m = maxi.top();
+    			}
+    			break;
+    
+    		case 1:
+    			if(ele > m){
+    				mini.push(ele);
+    				m = (maxi.top()+mini.top())/2;
+    			}
+    			else{
+    				mini.push(maxi.top());
+    				maxi.pop();
+    				maxi.push(ele);
+    				m = (maxi.top()+mini.top())/2;
+    			}
+    			break;
+    
+    		case -1:
+    			if(ele > m){
+    				maxi.push(mini.top());
+    				mini.pop();
+    				mini.push(ele);
+    				m = (maxi.top()+mini.top())/2;
+    			}
+    			else{
+    				maxi.push(ele);
+    				m = (maxi.top()+mini.top())/2;
+    			}
+    			break;
+    	}
+    }
+    
+    //Function to balance heaps.
+    int balanceHeaps()
+    {
+        int a = maxi.size();
+        int b = mini.size();
+        
+        if(a == b){
+    		return 0;
+    	}
+    
+    	else if(a>b){
+    		return 1;
+    	}
+    
+    	else{
+    		return -1;
+    	}
+    }
+    
+    //Function to return Median.
+    double getMedian()
+    {
+        return m;
+    }
+};
+
+
+//{ Driver Code Starts.
+
+int main()
+{
+    int n, x;
+    int t;
+    cin>>t;
+    while(t--)
+    {
+    	Solution ob;
+    	cin >> n;
+    	for(int i = 1;i<= n; ++i)
+    	{
+    		cin >> x;
+    		ob.insertHeap(x);
+    	    cout << floor(ob.getMedian()) << endl;
+    	}
+    }
+	return 0;
+}
+// } Driver Code Ends
