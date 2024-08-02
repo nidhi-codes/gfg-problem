@@ -1,0 +1,66 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+class Solution {
+  public:
+    
+    int dp[101][101];
+    int n, m;
+    int solve(string& w1, string& w2, int i, int j){
+
+        if(i == n && j == m){
+            return 0;
+        }
+
+        if(i == n && j<m){
+            return m-j;
+        }
+
+        if(j == m && i<n){
+            return n-i;
+        }
+        
+        
+        if(dp[i][j] != -1){
+            return dp[i][j];
+        }
+
+        if(w1[i] == w2[j]){
+            return solve(w1, w2, i+1, j+1);
+        }
+        else{
+            int ins = 1+solve(w1, w2, i, j+1);
+            int del = 1+solve(w1, w2, i+1, j);
+            int rep = 1+solve(w1, w2, i+1, j+1);
+
+            dp[i][j] = min({ins, del, rep});
+            return dp[i][j];
+        }
+    }
+    int editDistance(string word1, string word2) {
+        // Code here
+        memset(dp, -1, sizeof(dp));
+        n = word1.size();
+        m = word2.size();
+        return solve(word1, word2, 0, 0);
+    }
+};
+
+//{ Driver Code Starts.
+int main() {
+    int T;
+    cin >> T;
+    while (T--) {
+        string s, t;
+        cin >> s >> t;
+        Solution ob;
+        int ans = ob.editDistance(s, t);
+        cout << ans << "\n";
+    }
+    return 0;
+}
+
+// } Driver Code Ends
