@@ -1,0 +1,84 @@
+//{ Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+// User function Template for C++
+
+class Solution {
+  public:
+    int shortestPath(vector<vector<int>> &grid, pair<int, int> source,
+                     pair<int, int> destination) {
+        // code here
+        
+        if(!grid[destination.first][destination.second] || !grid[source.first][source.second]){
+            return -1;
+        }
+        int row = grid.size();
+        int col = grid[0].size();
+        
+        vector<int>rowChange = {-1,0,1,0};
+        vector<int>colChange = {0,1,0,-1};
+        vector<int> dist(row*col, 1e9);
+        queue<pair<int, int>>q;
+        
+        q.push(source);
+        dist[source.first*col+source.second] = 0;
+        
+        while(!q.empty()){
+            int i=q.front().first;
+            int j=q.front().second;
+            int dis = dist[i*col+j];
+            q.pop();
+            
+            for(int in=0; in<4; in++){
+                
+                int nr = i+rowChange[in];
+                int nc = j+colChange[in];
+                
+                if(nr>=0 && nr<row && nc>=0 && nc<col && grid[nr][nc] == 1){
+                    
+                    int weight = dist[nr*col+nc];
+                    if(dis+1 < weight){
+                        dist[nr*col+nc] = dis+1;
+                        q.push({nr, nc});
+                    }
+                    
+                }
+            }
+        }
+        
+        if(dist[destination.first*col+destination.second] == 1e9) return -1;
+        return dist[destination.first*col+destination.second];
+    }
+};
+
+
+//{ Driver Code Starts.
+int main() {
+
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, m;
+        cin >> n >> m;
+        vector<vector<int>> grid(n, vector<int>(m));
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                cin >> grid[i][j];
+            }
+        }
+
+        pair<int, int> source, destination;
+        cin >> source.first >> source.second;
+        cin >> destination.first >> destination.second;
+        Solution obj;
+        cout << obj.shortestPath(grid, source, destination) << endl;
+    }
+}
+
+// } Driver Code Ends
